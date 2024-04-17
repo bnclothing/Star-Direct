@@ -1,5 +1,13 @@
 <x-master title="Accueil">
 
+    <x-slot name="styles" >
+
+    </x-slot>
+
+
+    <x-slot name="header" >
+        
+    </x-slot>
     <x-slot name="main">
         <x-slot name="alert">
         </x-slot>
