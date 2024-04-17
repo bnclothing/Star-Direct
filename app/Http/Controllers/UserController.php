@@ -15,7 +15,13 @@ class UserController extends Controller
             $query->select('id_magazine')
                 ->from('responsables');
         })->where('magazine_type', 1)->where('is_active', 1)->get();
-        return view('addUtilisateurs', compact('MagazineWithoutResponsable'));
+
+        $AllMagazines = Magazine::all();
+
+        $PrimaryMagazines = Magazine::where('magazine_type', 1)->get();
+        $SecondaryMagazines = Magazine::where('magazine_type', 2)->get();
+        
+        return view('addUtilisateurs', compact('MagazineWithoutResponsable', 'AllMagazines', 'PrimaryMagazines', 'SecondaryMagazines'));
     }
 
     public function store(Request $request)

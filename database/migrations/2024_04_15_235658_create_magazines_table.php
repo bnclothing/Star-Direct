@@ -19,10 +19,12 @@ class CreateMagazinesTable extends Migration
             $table->string('magazine_name');
             $table->string('magazine_adresse');
             $table->integer('magazine_type');
+            $table->unsignedBigInteger('id_primary_magazine')->nullable();
             $table->boolean('is_active')->default(1);
             $table->unsignedBigInteger('responsable_id');
             $table->timestamps();
 
+            $table->foreign('id_primary_magazine')->references('id_magazine')->on('magazines')->onDelete('cascade');
             $table->foreign('responsable_id')->references('user_id')->on('users')->onDelete('cascade');
         });
     }

@@ -38,6 +38,10 @@
                 <!-- Additional fields will be dynamically added here -->
             </div>
 
+            <div id="additionalFieldsForSecondaryMagazines" class="col-md-12" style="display: none;">
+                <!-- Additional fields will be dynamically added here -->
+            </div>
+
             <div class="col-12">
                 <button type="submit" class="btn btn-primary">Sign in</button>
             </div>
@@ -48,6 +52,8 @@
 
     <x-slot name="javascript">
         <script>
+            
+
             document.getElementById('inputType').addEventListener('change', function() {
                 // Get the selected option value
                 var selectedValue = this.value;
@@ -61,7 +67,7 @@
                 // Check the selected value and add additional fields accordingly
                 if (selectedValue === '1') {
                     var MagazineWithoutResponsable =
-                    @json($MagazineWithoutResponsable); 
+                        @json($MagazineWithoutResponsable);
 
                     // Initialize an empty string to store the options
                     var options = '<option selected disabled>Choose The Magazine for this user</option>';
@@ -73,18 +79,71 @@
 
                     // Add fields for Responsable
                     additionalFieldsContainer.innerHTML = `
-                <label for="inputResponsableField" class="form-label">Magazine :</label>
-                <select class="form-select" id="Magazine" name="magazine">
-                    ${options}
-                </select>
-            `;
+                        <label for="MagazineResponsable" class="form-label">Magazine :</label>
+                        <select class="form-select" id="MagazineResponsable" name="magazineResponsable">
+                            ${options}
+                        </select>
+                    `;
                 } else if (selectedValue === '2') {
-                    // Add fields for Vendeur
+                    var AllMagazines =
+                        @json($AllMagazines);
+
+                    // Initialize an empty string to store the options
+                    var options = '<option selected disabled>Choose One or multiple Magazines</option>';
+
+                    // Iterate through the AllMagazines array and build the options
+                    AllMagazines.forEach(function(magazine) {
+                        options += `<option value="${magazine.id_magazine}">${magazine.magazine_name}</option>`;
+                    });
+
+                    // Add fields for Responsable
                     additionalFieldsContainer.innerHTML = `
-                <label for="inputVendeurField" class="form-label">Additional Field for Vendeur :</label>
-                <input type="text" class="form-control" id="inputVendeurField" name="additionalField">
-            `;
+                        <label for="MagazinesVendeurs" class="form-label">Magazines :</label>
+                        <select multiple class="form-select" id="MagazinesVendeurs" name="magazinesVendeurs">
+                            ${options}
+                        </select>
+                    `;
+                } else if (selectedValue === '3') {
+                    var PrimaryMagazines =
+                        @json($PrimaryMagazines);
+
+                    // Initialize an empty string to store the options
+                    var options = '<option selected disabled>Choose One</option>';
+
+                    // Iterate through the PrimaryMagazines array and build the options
+                    PrimaryMagazines.forEach(function(magazine) {
+                        options += `<option value="${magazine.id_magazine}">${magazine.magazine_name}</option>`;
+                    });
+
+                    // Add fields for Responsable
+                    additionalFieldsContainer.innerHTML = `
+                        <label for="PrimaryMagazines" class="form-label">Primary Magazines :</label>
+                        <select class="form-select" id="PrimaryMagazines" name="PrimaryMagazines">
+                            ${options}
+                        </select>
+                    `;
+                } else if (selectedValue === '4') {
+                    var AllMagazines =
+                        @json($AllMagazines);
+
+                    // Initialize an empty string to store the options
+                    var options = '<option selected disabled>Choose One or multiple Magazines</option>';
+
+                    // Iterate through the AllMagazines array and build the options
+                    AllMagazines.forEach(function(magazine) {
+                        options += `<option value="${magazine.id_magazine}">${magazine.magazine_name}</option>`;
+                    });
+
+                    // Add fields for Responsable
+                    additionalFieldsContainer.innerHTML = `
+                        <label for="MagazinesVendeurs" class="form-label">Magazines :</label>
+                        <select multiple class="form-select" id="MagazinesVendeurs" name="magazinesVendeurs">
+                            ${options}
+                        </select>
+                    `;
                 }
+
+
                 // Add other conditions for other types if needed
                 // ...
 
