@@ -14,7 +14,7 @@ class Magazine extends Model
         'magazine_name',
         'magazine_adresse',
         'magazine_type',
-        'responsable_id'
-
+        'responsable_id',
+        'id_primary_magazine'
     ];
 }
