@@ -60,10 +60,23 @@
 
                 // Check the selected value and add additional fields accordingly
                 if (selectedValue === '1') {
+                    var MagazineWithoutResponsable =
+                    @json($MagazineWithoutResponsable); 
+
+                    // Initialize an empty string to store the options
+                    var options = '<option selected disabled>Choose The Magazine for this user</option>';
+
+                    // Iterate through the MagazineWithoutResponsable array and build the options
+                    MagazineWithoutResponsable.forEach(function(magazine) {
+                        options += `<option value="${magazine.id_magazine}">${magazine.magazine_name}</option>`;
+                    });
+
                     // Add fields for Responsable
                     additionalFieldsContainer.innerHTML = `
-                <label for="inputResponsableField" class="form-label">Additional Field for Responsable :</label>
-                <input type="text" class="form-control" id="inputResponsableField" name="additionalField">
+                <label for="inputResponsableField" class="form-label">Magazine :</label>
+                <select class="form-select" id="Magazine" name="magazine">
+                    ${options}
+                </select>
             `;
                 } else if (selectedValue === '2') {
                     // Add fields for Vendeur
@@ -79,6 +92,7 @@
                 additionalFieldsContainer.style.display = (selectedValue !== '') ? 'block' : 'none';
             });
         </script>
+
     </x-slot>
 
 </x-master>
