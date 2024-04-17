@@ -19,7 +19,7 @@ class CreateMagazinesTable extends Migration
             $table->string('magazine_name');
             $table->string('magazine_adresse');
             $table->integer('magazine_type');
-            $table->boolean('is_active');
+            $table->boolean('is_active')->default(1);
             $table->unsignedBigInteger('responsable_id');
             $table->timestamps();
 
