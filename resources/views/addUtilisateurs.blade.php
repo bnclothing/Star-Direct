@@ -5,7 +5,8 @@
         <x-slot name="alert">
         </x-slot>
 
-        <form class="row g-3">
+        <form class="row g-3" method="POST" action="{{ route('StoreUser') }}">
+            @csrf
             <div class="col-md-4">
                 <label for="inputLastName" class="form-label">Nom :</label>
                 <input type="text" class="form-control" id="inputLastName" name="LastName" placeholder="Hilali">
@@ -26,7 +27,7 @@
             <div class="col-md-4">
                 <label for="inputType" class="form-label">Type :</label>
                 <select class="form-select" id="inputType" name="type">
-                    <option selected>Choose...</option>
+                    <option selected disabled>Choose...</option>
                     <option value="1">Responsable</option>
                     <option value="2">Vendeur</option>
                     <option value="3">Client</option>
@@ -38,8 +39,21 @@
                 <!-- Additional fields will be dynamically added here -->
             </div>
 
-            <div id="additionalFieldsForSecondaryMagazines" class="col-md-12" style="display: none;">
-                <!-- Additional fields will be dynamically added here -->
+            <div id="nationalityDIV" class="col-md-12" style="display: none;">
+                <label for="nationality" class="form-label">Nationality :</label>
+                <select class="form-select" id="nationalitySelect" name="nationality">
+                    <option selected disabled>Choose...</option>
+                    <option value="1">National</option>
+                    <option value="2">International</option>
+                </select>
+            </div>
+
+            <div id="currencyDIV" class="col-md-12" style="display: none;">
+                <label for="currency" class="form-label">Currency :</label>
+                <select class="form-select" id="currencySelect" name="currency">
+                    <option selected disabled>Choose...</option>
+
+                </select>
             </div>
 
             <div class="col-12">
@@ -52,8 +66,6 @@
 
     <x-slot name="javascript">
         <script>
-            
-
             document.getElementById('inputType').addEventListener('change', function() {
                 // Get the selected option value
                 var selectedValue = this.value;
@@ -99,7 +111,7 @@
                     // Add fields for Responsable
                     additionalFieldsContainer.innerHTML = `
                         <label for="MagazinesVendeurs" class="form-label">Magazines :</label>
-                        <select multiple class="form-select" id="MagazinesVendeurs" name="magazinesVendeurs">
+                        <select multiple class="form-select" id="MagazinesVendeurs" name="magazinesVendeurs[]">
                             ${options}
                         </select>
                     `;
@@ -118,10 +130,11 @@
                     // Add fields for Responsable
                     additionalFieldsContainer.innerHTML = `
                         <label for="PrimaryMagazines" class="form-label">Primary Magazines :</label>
-                        <select class="form-select" id="PrimaryMagazines" name="PrimaryMagazines">
+                        <select class="form-select" id="PrimaryMagazinesSelect" name="PrimaryMagazines">
                             ${options}
                         </select>
                     `;
+
                 } else if (selectedValue === '4') {
                     var AllMagazines =
                         @json($AllMagazines);
@@ -136,20 +149,46 @@
 
                     // Add fields for Responsable
                     additionalFieldsContainer.innerHTML = `
-                        <label for="MagazinesVendeurs" class="form-label">Magazines :</label>
-                        <select multiple class="form-select" id="MagazinesVendeurs" name="magazinesVendeurs">
+                        <label for="MagazinesFournisseur" class="form-label">Magazines :</label>
+                        <select multiple class="form-select" id="MagazinesFournisseur" name="magazinesFournisseur">
                             ${options}
+                        </select>
+                    `;
+
+                    nationalityDIV.style.display = 'block';
+                    currencyDIV.style.display = 'block';
+                    currencySelect;
+                    nationalitySelect;
+
+                    var AllCurrencies =
+                        @json($AllCurrencies);
+
+                    // Initialize an empty string to store the options
+                    var Currencyoptions = '<option selected>MAD</option>';
+
+                    //Geeting The Currencies
+                    AllCurrencies.forEach(function(currency) {
+                        Currencyoptions +=
+                            `<option value="${currency.id_currency}">${currency.currency_name}</option>`;
+                    });
+
+                    // Add fields for Responsable
+                    currencySelect.innerHTML = `
+                        <label for="CurrencyInput" class="form-label">Currencies :</label>
+                        <select class="form-select" id="CurrencyInput" name="Currency">
+                            ${Currencyoptions}
                         </select>
                     `;
                 }
 
 
-                // Add other conditions for other types if needed
-                // ...
-
                 // Show or hide the container based on the selected value
+                nationalityDIV.style.display = (selectedValue === '4') ? 'block' : 'none';
+                currencyDIV.style.display = (selectedValue === '4') ? 'block' : 'none';
                 additionalFieldsContainer.style.display = (selectedValue !== '') ? 'block' : 'none';
             });
+
+            
         </script>
 
     </x-slot>
