@@ -27,7 +27,6 @@ class UserController extends Controller
         $PrimaryMagazines = Magazine::where('magazine_type', 1)->get();
         $SecondaryMagazines = Magazine::where('magazine_type', 2)->get();
         $AllCurrencies = Currency::all();
-
         return view('addUtilisateurs', compact('MagazineWithoutResponsable', 'AllMagazines', 'PrimaryMagazines', 'SecondaryMagazines', 'AllCurrencies'));
     }
 
