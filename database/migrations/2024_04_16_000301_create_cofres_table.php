@@ -20,8 +20,8 @@ class CreateCofresTable extends Migration
             $table->unsignedBigInteger('id_check');
             $table->timestamps();
 
-            $table->foreign('id_check')->references('id_check')->on('checks')->onDelete('Restrict');
-            $table->foreign('id_magazine')->references('id_magazine')->on('magazines')->onDelete('Restrict');
+            $table->foreign('id_check')->references('id_check')->on('checks')->onDelete('cascade');
+            $table->foreign('id_magazine')->references('id_magazine')->on('magazines')->onDelete('cascade');
         });
     }
 

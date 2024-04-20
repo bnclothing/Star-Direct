@@ -19,7 +19,7 @@ class CreateChargesTable extends Migration
             $table->double('charge_amount');
             $table->unsignedBigInteger('id_magazine');
 
-            $table->foreign('id_magazine')->references('id_magazine')->on('magazines');
+            $table->foreign('id_magazine')->references('id_magazine')->on('magazines')->onDelete('cascade');;
 
             $table->timestamps();
         });

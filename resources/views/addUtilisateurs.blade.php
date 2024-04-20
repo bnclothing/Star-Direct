@@ -10,6 +10,14 @@
         </x-slot>
 
         <x-slot name="alert">
+            @if ($errors->any())
+                <x-alert type="danger" text="Fill all the fields." />
+            @elseif(session('error'))
+                <x-alert type="danger" text="{{ session('error') }}" />
+            @elseif(session('success'))
+                <x-alert type="success" text="{{ session('success') }}" />
+            @endif
+
         </x-slot>
 
         <form class="row g-3" method="POST" action="{{ route('StoreUser') }}">
@@ -57,13 +65,13 @@
 
             <div id="PrimaryMagazinesDIV" class="col-md-12" style="display: none;">
                 <label for="PrimaryMagazines" class="form-label">Primary Magazines :</label>
-                <select class="form-select" id="PrimaryMagazinesSelect" name="PrimaryMagazines">
+                <select multiple class="form-select" id="PrimaryMagazinesSelect" name="PrimaryMagazines[]">
                 </select>
             </div>
 
             <div id="SecondaryMagazinesDIV" class="col-md-12" style="display: none;">
                 <label for="SecondaryMagazines" class="form-label">Secondary Magazines :</label>
-                <select disabled multiple class="form-select" id="SecondaryMagazinesSelect" name="SecondaryMagazines">
+                <select disabled multiple class="form-select" id="SecondaryMagazinesSelect" name="SecondaryMagazines[]">
                 </select>
             </div>
 
@@ -166,16 +174,26 @@
 
                     // Add event listener to Primary Select for updating Secondary Select
                     document.getElementById('PrimaryMagazinesSelect').addEventListener('change', function() {
-                        var primary_id = this.value;
+                        var selectedOptions = this.selectedOptions; // Get all selected options
+
+                        var primaryIds = []; // Array to store the selected values
+
+                        // Iterate over selected options to get their values
+                        for (var i = 0; i < selectedOptions.length; i++) {
+                            primaryIds.push(selectedOptions[i].value); // Add value to the array
+                            console.log(selectedOptions[i].value);
+
+                        }
                         var SecondaryMagazines = @json($SecondaryMagazines);
                         var secondaryOptions = '';
 
                         // Iterate through SecondaryMagazines array and build the options
                         SecondaryMagazines.forEach(function(magazine) {
-                            if (primary_id == magazine.id_primary_magazine) {
+                            if (primaryIds.includes(String(magazine.id_primary_magazine))) {
                                 secondaryOptions +=
                                     `<option selected value="${magazine.id_magazine}">${magazine.magazine_name}</option>`;
                             }
+
                         });
 
                         // Update Secondary Select with options
@@ -198,7 +216,7 @@
                     // Add fields for Fournisseur
                     additionalFieldsContainer.innerHTML = `
                         <label for="MagazinesFournisseur" class="form-label">Magazines :</label>
-                        <select multiple class="form-select" id="MagazinesFournisseur" name="magazinesFournisseur">
+                        <select multiple class="form-select" id="MagazinesFournisseur" name="magazinesFournisseur[]">
                             ${MagazinesOptions}
                         </select>
                     `;
@@ -225,7 +243,7 @@
                         is_national = (nationalitySelect.value === '1') ? true : false;
 
                         if (is_national) {
-                            currencySelect.innerHTML =`<option selected value="MAD">Moroccan Dirham</option>`;
+                            currencySelect.innerHTML = `<option selected value="MAD">Moroccan Dirham</option>`;
                             currencySelect.disabled = true;
                         } else {
                             // Enable currency select if nationality is set to 'International'

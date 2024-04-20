@@ -10,6 +10,13 @@
     </x-slot>
     <x-slot name="main">
         <x-slot name="alert">
+            @if ($errors->any())
+                <x-alert type="danger" text="Fill all the fields." />
+            @elseif(session('error'))
+                <x-alert type="danger" text="{{ session('error') }}" />
+            @elseif(session('success'))
+                <x-alert type="success" text="{{ session('success') }}" />
+            @endif
         </x-slot>
         
         <div class="container mt-5">

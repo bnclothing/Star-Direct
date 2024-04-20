@@ -16,12 +16,12 @@ class CreateSuppliersTable extends Migration
         Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('id_currency',4);
+            $table->string('id_currency')->default('MAD');
             $table->boolean('is_national');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('Restrict');
-            $table->foreign('id_currency')->references('id_currency')->on('currencies')->onDelete('Restrict');
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
+            $table->foreign('id_currency')->references('id_currency')->on('currencies')->onDelete('cascade');
 
         });
     }
