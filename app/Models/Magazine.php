@@ -17,4 +17,8 @@ class Magazine extends Model
         'responsable_id',
         'id_primary_magazine'
     ];
+    public function charges()
+    {
+        return $this->hasMany(Charge::class, 'id_magazine', 'id');
+    }
 }

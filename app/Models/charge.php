@@ -12,4 +12,8 @@ class charge extends Model
     {
         return $this->belongsTo(Magazine::class);
     }
+    public function charges()
+    {
+        return $this->hasMany(Charge::class, 'id_magazine', 'id');
+    }
 }

@@ -14,3 +14,4 @@ Route::post('/AddMagazines/store', [MagazineController::class, 'store'])->name('
 Route::get('/Users', [UserController::class, 'showAll'])->name('Users.index');
 Route::get('/AddUser', [UserController::class, 'index'])->name('AddUser');
 Route::post('/AddUser/store', [UserController::class, 'store'])->name('StoreUser');
+Route::get('/AddMagazines/getCharges/{primaryMagazineId}', [MagazineController::class, 'getCharges'])->name('getChargesMagazine');
