@@ -13,6 +13,7 @@ Route::get('/deleteMagazine/{id}', [MagazineController::class, 'deleteMagazine']
 Route::get('/editMagazine/{id}', [MagazineController::class, 'editMagazine'])->name('editMagazine');
 Route::get('/searchMagazine', [MagazineController::class, 'searchMagazine'])->name('searchMagazine');
 Route::post('/AddMagazines/store', [MagazineController::class, 'store'])->name('StoreMagazine');
+Route::get('/AddMagazines/getCharges/{primaryMagazineId}', [MagazineController::class, 'getCharges'])->name('getChargesMagazine');
 
 Route::get('/Users', [UserController::class, 'showAll'])->name('Users.index');
 Route::get('/AddUser', [UserController::class, 'index'])->name('AddUser');
