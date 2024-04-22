@@ -41,7 +41,11 @@ class MagazineController extends Controller
     
         // Check if the request has the necessary data
         if (!$request->has('coffreType') || empty($request->coffreType)) {
-            return redirect()->back()->with('error', 'Please fill in the required fields.');
+            return redirect()->back()->withInput()->with('error', 'Please fill in the required fields.');
+        }
+    
+        if (Magazine::where('code_magazine', $request->MagazineCode)->exists()) {
+            return redirect()->back()->withInput()->with('code_exists', 'Magazine code already exists.');
         }
         $MagazineName = $request->MagazineName;
         $MagazineCode = $request->MagazineCode;

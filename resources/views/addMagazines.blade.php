@@ -4,25 +4,40 @@
 
       
 
-        <x-slot name="alert">
+       
+            <x-slot name="alert">
+                @if(session('code_exists'))
+                <x-alert type="danger" text="{{ session('code_exists') }}" />
+            @elseif ($errors->any())
+                <x-alert type="danger" text="Fill all the fields." />
+            @elseif(session('error'))
+                <x-alert type="danger" text="{{ session('error') }}" />
+            @endif
+        
         </x-slot>
+        @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+       @endif
 
         <form class="form-inline " method="POST" action="{{ route('StoreMagazine') }}">
             <div class="row mb-2">
                 <div class="col">
                     <label class="pr-2">Nom du Magasin: </label> 
                     <input type="text" class="form-control mb-2" name="MagazineName"
-                        placeholder="Nom du Magasin" style="margin-right: 10px;">
+                        placeholder="Nom du Magasin" style="margin-right: 10px;"
+                        value="{{ old('MagazineName') }}">
                 </div>
                 <div class="col">
                     <label class="pr-2">Code du Magasin: </label> 
-                    <input type="text" class="form-control mb-2" name="MagazineCode"
+                    <input type="text" class="form-control mb-2" name="MagazineCode" value="{{ old('MagazineCode') }}"
                         placeholder="Code du Magasin" style="margin-right: 10px;">           
                          </div>
                 <div class="col">
                     <label class="pr-2">Adresse du Magasin: </label>
                     <div class="input-group mb-2"  style="margin-right: 10px;">
-                        <input type="text" class="form-control"placeholder="Adresse du Magasin" name="MagazineAdress">
+                        <input type="text" class="form-control"placeholder="Adresse du Magasin" value="{{ old('MagazineAdress') }}" name="MagazineAdress">
                     </div>
                 </div>
             </div>
@@ -135,6 +150,15 @@
         document.body.appendChild(errorAlert);
         @endif
             document.addEventListener("DOMContentLoaded", function () {
+                var errorAlertAdded = document.querySelector(".alert.alert-danger");
+
+                // If the error alert is not already added, add it
+                if (!errorAlertAdded && "{{ session('error') }}") {
+                    var errorAlert = document.createElement("div");
+                    errorAlert.className = "alert alert-danger";
+                    errorAlert.textContent = "{{ session('error') }}";
+                    document.body.appendChild(errorAlert);
+                }
                 var magazineTypeSelect = document.getElementById("magazineType");
                 var chargesSection = document.getElementById("chargesSection");
                 var addChargeBtn = document.getElementById("addChargeBtn");

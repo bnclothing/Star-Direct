@@ -1,7 +1,11 @@
 <x-master title="Accueil">
 
     <x-slot name="main">
+        
         <x-slot name="alert">
+            @if(session('success'))
+            <x-alert type="success" text="{{ session('success') }}" />
+          @endif
         </x-slot>
         
         <div class="container mt-5">
