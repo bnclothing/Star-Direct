@@ -21,7 +21,7 @@ class CreateMagazinesTable extends Migration
             $table->integer('magazine_type');
             $table->unsignedBigInteger('id_primary_magazine')->nullable();
             $table->boolean('is_active')->default(1);
-            $table->unsignedBigInteger('responsable_id');
+            $table->unsignedBigInteger('responsable_id')->nullable();
             $table->timestamps();
 
             $table->foreign('id_primary_magazine')->references('id_magazine')->on('magazines')->onDelete('cascade');

@@ -11,13 +11,14 @@
 
         <x-slot name="alert">
             @if ($errors->any())
-                <x-alert type="danger" text="Fill all the fields." />
+                @foreach ($errors->all() as $error)
+                    <x-alert type="danger" text="{{ $error }}" />
+                @endforeach
             @elseif(session('error'))
                 <x-alert type="danger" text="{{ session('error') }}" />
             @elseif(session('success'))
                 <x-alert type="success" text="{{ session('success') }}" />
             @endif
-
         </x-slot>
 
         <form class="row g-3" method="POST" action="{{ route('StoreUser') }}">
@@ -243,7 +244,13 @@
                         is_national = (nationalitySelect.value === '1') ? true : false;
 
                         if (is_national) {
-                            currencySelect.innerHTML = `<option selected value="MAD">Moroccan Dirham</option>`;
+                            currencySelect.querySelectorAll('option').forEach(option => {
+                                option.removeAttribute('selected');
+                            });
+                            // Find the option with the value "MAD" and set its selected attribute to true
+                            currencySelect.querySelector('option[value="MAD"]').setAttribute('selected',
+                                'selected');
+                                
                             currencySelect.disabled = true;
                         } else {
                             // Enable currency select if nationality is set to 'International'

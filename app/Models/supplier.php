@@ -14,4 +14,5 @@ class supplier extends Model
         'id_currency',
         'is_national'
     ];
+    
 }

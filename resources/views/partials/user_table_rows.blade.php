@@ -15,12 +15,15 @@
             @endif
         </td>
         <td style="width: 150px;">
-            <button type="button" class="btn btn-success" id="editUserBtn" data-bs-toggle="modal" data-bs-target="#editUserModal" data-user-id="{{ $user->user_id }}">
+            <button type="button" class="btn btn-success editUserBtn" data-bs-toggle="modal"
+                data-bs-target="#editUserModal" data-user-id="{{ $user->user_id }}" data-user-type="{{ $user->type }}">
                 <i class="las la-edit"></i>
             </button>
-            <a href="{{ route('deleteUser', ['id' => $user->user_id]) }}" class="btn btn-danger">
+            <button type="button" class="btn btn-danger deleteUserBtn"
+                 data-user-id="{{ $user->user_id }}" data-user-type="{{ $user->type }}">
                 <i class="las la-times"></i>
-            </a>
+            </button>
+
         </td>
     </tr>
 @endforeach

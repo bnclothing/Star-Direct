@@ -18,6 +18,6 @@ Route::get('/Users', [UserController::class, 'showAll'])->name('Users.index');
 Route::get('/AddUser', [UserController::class, 'index'])->name('AddUser');
 Route::post('/AddUser/store', [UserController::class, 'store'])->name('StoreUser');
 Route::get('/searchUser', [UserController::class, 'searchUser'])->name('searchUser');
-Route::get('/deleteUser/{id}', [UserController::class, 'deleteUser'])->name('deleteUser');
-Route::get('/editUser/{id}', [UserController::class, 'editUser'])->name('editUser');
+Route::get('/deleteUser', [UserController::class, 'deleteUser'])->name('deleteUser');
+Route::post('/editUser', [UserController::class, 'editUser'])->name('editUser');
 Route::get('/getUserData', [UserController::class, 'getUserDetails'])->name('getUserDetails');
