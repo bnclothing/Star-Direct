@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Cofre extends Model
+class especes extends Model
 {
     use HasFactory;
-    public function magazine()
+    public function especes()
     {
-        return $this->belongsTo(Magazine::class);
+        return $this->belongsTo(especes::class);
     }
+
+    
 }

@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class check extends Model
 {
     use HasFactory;
+    public function cofre()
+    {
+        return $this->belongsTo(Cofre::class);
+    }
 }

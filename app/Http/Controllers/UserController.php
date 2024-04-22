@@ -61,6 +61,7 @@ class UserController extends Controller
                 'password' => Hash::make('password'),
                 'type' => $request->type,
             ]);
+            
             switch ($request->type) {
                 case "1":
                     $request->validate(['magazineResponsable' => 'required']);

@@ -15,7 +15,7 @@
             @endif
         </td>
         <td style="width: 150px;">
-            <button type="button" class="btn btn-success editUserBtn" data-bs-toggle="modal"
+            <button type="button" class="btn btn-success editUserBtn" data-bs-toggle="modal" id="editUserBtn"
                 data-bs-target="#editUserModal" data-user-id="{{ $user->user_id }}" data-user-type="{{ $user->type }}">
                 <i class="las la-edit"></i>
             </button>

@@ -24,6 +24,8 @@
     </x-slot>
 
     <x-slot name="main">
+        @include('partials.editUserModal')
+
         <div class="d-flex justify-content-center mb-3">
             <p class="h1">All Users</p>
         </div>
@@ -53,7 +55,6 @@
             </tbody>
         </table>
         {{ $AllUsers->links() }}
-        @include('partials.editUserModal')
 
 
 
@@ -110,7 +111,7 @@
 
         {{-- edit user Modal --}}
         <script>
-            $(document).ready(function() {
+            document.addEventListener('DOMContentLoaded', function() {
                 // Function to fetch user details and populate the modal
                 function fetchUserDetails(userId, userType) {
                     $.ajax({
@@ -128,150 +129,79 @@
                             $('#user_email').val(userData.email);
                             $('#user_phone').val(userData.phone);
 
+                            // Hide all fields by default
+                            $('.user-details-field').hide();
+
                             if (userData.type == 1) {
-                                //displayed all the other fields
-                                $('#CurrentMagazines_SellerDIV').css('display', 'none');
-                                $('#NewMagazines_SellerDIV').css('display', 'none');
-                                $('#CurrentMagazines_ClientDIV').css('display', 'none');
-                                $('#NewMagazines_ClientDIV').css('display', 'none');
-                                $('#CurrentMagazines_SupplierDIV').css('display', 'none');
-                                $('#NewMagazines_SupplierDIV').css('display', 'none');
-                                $('#Currency_SupplierDIV').css('display', 'none');
-                                $('#Nationality_SupplierDIV').css('display', 'none');
-                                //show the necessary fields
-                                $('#Magazin_ResponsableDIV').css('display', 'block');
-
-                                var magazinName = response.magazinName;
+                                $('#Magazin_Responsable').val(response.magazinName);
                                 $('#user_type').val("Responsable");
-                                $('#Magazin_Responsable').val(magazinName);
-
+                                $('#Magazin_ResponsableDIV').show();
                             } else if (userData.type == 2) {
-                                //displayed all the other fields
-                                $('#Magazin_ResponsableDIV').css('display', 'none');
-                                $('#CurrentMagazines_ClientDIV').css('display', 'none');
-                                $('#NewMagazines_ClientDIV').css('display', 'none');
-                                $('#CurrentMagazines_SupplierDIV').css('display', 'none');
-                                $('#NewMagazines_SupplierDIV').css('display', 'none');
-                                $('#Currency_SupplierDIV').css('display', 'none');
-                                $('#Nationality_SupplierDIV').css('display', 'none');
-                                //show the necessary fields
-                                $('#CurrentMagazines_SellerDIV').css('display', 'block');
-                                $('#NewMagazines_SellerDIV').css('display', 'block');
-
-                                var magazineNames = response.magazineNames;
-                                var allMagazines = response.AllMagazines;
-                                magazineNames.forEach(function(magazine) {
+                                $('#CurrentMagazin_SellerSelect').empty();
+                                $('#NewMagazin_SellerSelect').empty();
+                                response.magazineNames.forEach(function(magazine) {
                                     $('#CurrentMagazin_SellerSelect').append(
-                                        '<option selected value="'+ magazine.id_magazine +'">' + magazine.magazine_name + '</option>');
+                                        '<option selected value="' + magazine.id_magazine +
+                                        '">' + magazine.magazine_name + '</option>');
                                 });
-
-                                allMagazines.forEach(function(magazine) {
+                                response.AllMagazines.forEach(function(magazine) {
                                     $('#NewMagazin_SellerSelect').append('<option value="' +
-                                        magazine
-                                        .id_magazine + '">' + magazine.magazine_name +
+                                        magazine.id_magazine + '">' + magazine.magazine_name +
                                         '</option>');
                                 });
-
                                 $('#user_type').val("Vendeur");
+                                $('#CurrentMagazines_SellerDIV, #NewMagazines_SellerDIV').show();
                             } else if (userData.type == 3) {
-                                //displayed all the other fields
-                                $('#CurrentMagazines_SellerDIV').css('display', 'none');
-                                $('#NewMagazines_SellerDIV').css('display', 'none');
-                                $('#Magazin_ResponsableDIV').css('display', 'none');
-                                $('#CurrentMagazines_SupplierDIV').css('display', 'none');
-                                $('#NewMagazines_SupplierDIV').css('display', 'none');
-                                $('#Currency_SupplierDIV').css('display', 'none');
-                                $('#Nationality_SupplierDIV').css('display', 'none');
-                                //show the necessary fields
-                                $('#CurrentMagazines_ClientDIV').css('display', 'block');
-                                $('#NewMagazines_ClientDIV').css('display', 'block');
-
-                                //set the type
-                                $('#user_type').val("Client");
-
-                                //set the magazines fields
-                                var magazineNames = response.magazineNames;
-                                var AllPrimaryMagazines = response.AllPrimaryMagazines;
-                                magazineNames.forEach(function(magazine) {
+                                $('#CurrentMagazin_ClientSelect').empty();
+                                $('#NewMagazin_ClientSelect').empty();
+                                response.magazineNames.forEach(function(magazine) {
                                     $('#CurrentMagazin_ClientSelect').append(
-                                        '<option seleced value="">' + magazine + '</option>');
+                                        '<option selected value="' + magazine.id_magazine +
+                                        '">' + magazine.magazine_name + '</option>');
                                 });
-
-                                AllPrimaryMagazines.forEach(function(magazine) {
+                                response.AllPrimaryMagazines.forEach(function(magazine) {
                                     $('#NewMagazin_ClientSelect').append('<option value="' +
-                                        magazine
-                                        .id_magazine + '">' + magazine.magazine_name +
+                                        magazine.id_magazine + '">' + magazine.magazine_name +
                                         '</option>');
                                 });
-
+                                $('#user_type').val("Client");
+                                $('#CurrentMagazines_ClientDIV, #NewMagazines_ClientDIV').show();
                             } else if (userData.type == 4) {
-                                //displayed all the other fields
-                                $('#CurrentMagazines_SellerDIV').css('display', 'none');
-                                $('#NewMagazines_SellerDIV').css('display', 'none');
-                                $('#Magazin_ResponsableDIV').css('display', 'none');
-                                $('#CurrentMagazines_ClientDIV').css('display', 'none');
-                                $('#NewMagazines_ClientDIV').css('display', 'none');
-
-                                //show the necessary fields
-                                $('#CurrentMagazines_SupplierDIV').css('display', 'block');
-                                $('#NewMagazines_SupplierDIV').css('display', 'block');
-                                $('#Currency_SupplierDIV').css('display', 'block');
-                                $('#Nationality_SupplierDIV').css('display', 'block');
-
-                                //set the type
-                                $('#user_type').val("Fournisseur");
-
-                                //get variables
-                                var CurrentMagazines = response.CurrentMagazines;
-                                var AllMagazines = response.AllMagazines;
-                                var AllCurrencies = response.AllCurrencies;
-                                var selectedCurrency = response.selectedCurrency;
-                                var IsNational = response.IsNational;
-
-                                //set current Magazines of the Supplier
-                                CurrentMagazines.forEach(function(magazine) {
+                                $('#CurrentMagazines_SupplierSelect').empty();
+                                $('#NewMagazines_SupplierSelect').empty();
+                                response.CurrentMagazines.forEach(function(magazine) {
                                     $('#CurrentMagazines_SupplierSelect').append(
                                         '<option value="">' + magazine + '</option>');
                                 });
-
-                                //set new Magazines of the Supplier
-                                AllMagazines.forEach(function(magazine) {
+                                response.AllMagazines.forEach(function(magazine) {
                                     $('#NewMagazines_SupplierSelect').append('<option value="' +
-                                        magazine
-                                        .id_magazine + '">' + magazine.magazine_name +
+                                        magazine.id_magazine + '">' + magazine.magazine_name +
                                         '</option>');
                                 });
-
-                                //set Currencies
-                                AllCurrencies.forEach(function(currency) {
-                                    if (selectedCurrency.id_currency == currency.id_currency) {
-                                        $('#Currency_SupplierSelect').append(
-                                            '<option selected value="' + currency.id_currency +
-                                            '">' + currency.currency_name + '</option>');
-                                    } else {
-                                        $('#Currency_SupplierSelect').append('<option value="' +
-                                            currency.id_currency + '">' + currency
-                                            .currency_name + '</option>');
-
+                                response.AllCurrencies.forEach(function(currency) {
+                                    var option = '<option value="' + currency.id_currency + '">' +
+                                        currency.currency_name + '</option>';
+                                    if (response.selectedCurrency.id_currency == currency
+                                        .id_currency) {
+                                        option = '<option selected value="' + currency.id_currency +
+                                            '">' + currency.currency_name + '</option>';
                                     }
-
+                                    $('#Currency_SupplierSelect').append(option);
                                 });
-
-                                //set nationality
-                                if (IsNational) {
-                                    $('#Nationality_SupplierSelect').html(
-                                        '<option value="0">International</option> <option selected value="1">National</option>'
-                                    );
+                                var nationalityOptions = '';
+                                if (response.IsNational) {
+                                    nationalityOptions =
+                                        '<option value="0">International</option> <option selected value="1">National</option>';
                                 } else {
-                                    $('#Nationality_SupplierSelect').html(
-                                        '<option selected value="0">International</option> <option value="1">National</option>'
-                                    );
+                                    nationalityOptions =
+                                        '<option selected value="0">International</option> <option value="1">National</option>';
                                 }
-
-
+                                $('#Nationality_SupplierSelect').html(nationalityOptions);
+                                $('#user_type').val("Fournisseur");
+                                $('#CurrentMagazines_SupplierDIV, #NewMagazines_SupplierDIV, #Currency_SupplierDIV, #Nationality_SupplierDIV')
+                                    .show();
                             }
                         },
-
                         error: function(xhr, status, error) {
                             console.error(error);
                         }
@@ -279,7 +209,7 @@
                 }
 
                 // Bind click event to edit buttons
-                $('.editUserBtn').on('click', function() {
+                $(document).on('click', '.editUserBtn', function() {
                     // Get the user id from the data attribute
                     let userId = $(this).data('user-id');
                     let userType = $(this).data('user-type');
@@ -289,9 +219,10 @@
             });
         </script>
 
+
         {{-- delete user --}}
         <script>
-            function deleteUser(userId,userType) {
+            function deleteUser(userId, userType) {
                 $.ajax({
                     url: "{{ route('deleteUser') }}",
                     method: 'GET',
@@ -317,10 +248,10 @@
             }
 
             // Bind click event to delete buttons
-            $('.deleteUserBtn').on('click', function() {
+            $(document).on('click', '.deleteUserBtn', function() {
                 // Get the user id from the data attribute
                 let userId = $(this).data('user-id');
-                let userType  = $(this).data('user-id');
+                let userType = $(this).data('user-id');
 
                 // Ask for confirmation
                 let confirmation = confirm("Are you sure you want to delete this user?");
@@ -328,7 +259,7 @@
                 // If the user confirms, proceed with the deletion
                 if (confirmation) {
                     // Call the function to delete the user
-                    deleteUser(userId,userType);
+                    deleteUser(userId, userType);
                 }
             });
         </script>

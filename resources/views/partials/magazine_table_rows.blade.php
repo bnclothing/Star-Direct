@@ -30,8 +30,15 @@
             @endif
         </td>
         <td style="width: 150px;">
-            <a href="{{ route('editMagazine', ['id' => $magazine->id_magazine]) }}" class="btn btn-success"><i class="las la-edit"></i></a>
-            <a href="{{ route('deleteMagazine', ['id' => $magazine->id_magazine]) }}" class="btn btn-danger"><i class="las la-times"></i></a>
+            <button type="button" class="btn btn-success editMagazineBtn" data-bs-toggle="modal"
+                data-bs-target="#editMagazineModal" data-magazine-id="{{ $magazine->id_magazine }}" data-magazine-type="{{ $magazine->magazine_type }}">
+                <i class="las la-edit"></i>
+            </button>
+            <button type="button" class="btn btn-danger deleteMagazineBtn"
+                 data-magazine-id="{{ $magazine->id_magazine }}" data-magazine-type="{{ $magazine->magazine_type }}">
+                <i class="las la-times"></i>
+            </button>
+
         </td>
     </tr>
 @endforeach

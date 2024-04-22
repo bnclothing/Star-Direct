@@ -15,14 +15,14 @@ class CreateCofresTable extends Migration
     {
         Schema::create('cofres', function (Blueprint $table) {
             $table->id('id_cofre');
+            $table->string('type')->nullable();
             $table->unsignedBigInteger('id_magazine');
             $table->double('montant_espece');
-            $table->unsignedBigInteger('id_check');
             $table->timestamps();
 
-            $table->foreign('id_check')->references('id_check')->on('checks')->onDelete('cascade');
-            $table->foreign('id_magazine')->references('id_magazine')->on('magazines')->onDelete('cascade');
+            $table->foreign('id_magazine')->references('id_magazine')->on('magazines')->onDelete('RESTRICT');
         });
+
     }
 
     /**
